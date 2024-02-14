@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -18,5 +19,9 @@ public class ProductService {
     public Product createProduct(ProductDTO dto) {
         Product product = ProductMapper.convertToEntity(dto);
         return repository.save(product);
+    }
+
+    public Optional<Product> findById(int id) {
+        return repository.findById(id);
     }
 }

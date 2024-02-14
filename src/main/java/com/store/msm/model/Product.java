@@ -8,7 +8,9 @@ import lombok.Data;
 @Data
 public class Product {
     @Id
-    private float id;
+    @Column(name = "product_id")
+    private int id;
+    @Column(name = "product_name")
     private String name;
     private String description;
     private int quantity;

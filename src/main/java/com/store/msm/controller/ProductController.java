@@ -8,24 +8,42 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/products")
 public class ProductController {
     @Autowired
     private ProductService service;
 
+
+
     @GetMapping("/")
     public ResponseEntity<String> ping() {
         return new ResponseEntity<>("Pong", HttpStatus.OK);
     }
 
-    @PostMapping("/create/")
-    public ResponseEntity<String> createProduct(@RequestBody ProductDTO productDTO) {
+    @PostMapping("/")
+    public ResponseEntity<String> createProduct(@RequestBody ProductDTO dto) {
         try {
-            Product _product = service.createProduct(productDTO);
+            Product _product = service.createProduct(dto);
             return new ResponseEntity<>("Creado", HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear producto\n" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error:\n" + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/")
+    public ResponseEntity<String> updateProduct(@RequestParam(required = true, name = "id") int product_id, @RequestBody ProductDTO dto) {
+        Optional<Product> _product = service.findById(product_id);
+        if (_product.isPresent()) {
+            dto.setId(product_id);
+            Product product = service.createProduct(dto);
+            return new ResponseEntity<>("Actualizado", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 }
