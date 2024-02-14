@@ -1,4 +1,4 @@
-package com.store.MSM;
+package com.store.msm;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.store.MSM;
+package com.store.msm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
