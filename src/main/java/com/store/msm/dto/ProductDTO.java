@@ -9,5 +9,5 @@ public class ProductDTO {
     private String description;
     private int quantity;
     private String model;
-    private int price;
+    private float price;
 }

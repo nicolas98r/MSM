@@ -25,7 +25,7 @@ public class ProductController {
             Product _product = service.createProduct(productDTO);
             return new ResponseEntity<>("Creado", HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear producto", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error al crear producto\n" + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
