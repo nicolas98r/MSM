@@ -1,14 +1,14 @@
 package com.store.msm.service;
 
 import com.store.msm.dto.UserDTO;
+import com.store.msm.exceptions.ItemExitsException;
+import com.store.msm.exceptions.ItemNotFoundException;
 import com.store.msm.mapper.UserMapper;
 import com.store.msm.model.User;
 import com.store.msm.repository.IUserRepository;
 import com.store.msm.repository.IUserTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,15 +19,20 @@ public class UserService {
     private IUserTypeRepository typeRepository;
 
     public User createUser(UserDTO dto) {
-        User user = UserMapper.convertToEntity(dto, typeRepository.findByName(dto.getType()).get());
+        if (userRepository.findById(dto.getUsername()).isPresent()) {
+            throw new ItemExitsException(dto.getUsername());
+        }
+        String type = dto.getType();
+        User user = UserMapper.convertToEntity(dto, typeRepository.findByName(type).orElseThrow(() -> new ItemNotFoundException(type)));
         return userRepository.save(user);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findById(username);
+    public User findByUsername(String username) {
+        return userRepository.findById(username).orElseThrow(() -> new ItemNotFoundException(username));
     }
 
     public void deleteByUsername(String username) {
+        User user = this.findByUsername(username);
         userRepository.deleteById(username);
     }
 }

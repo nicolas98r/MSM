@@ -3,6 +3,7 @@ package com.store.msm.controller;
 import com.store.msm.dto.ResponseDTO;
 import com.store.msm.exceptions.ItemExitsException;
 import com.store.msm.exceptions.ItemNotFoundException;
+import com.store.msm.exceptions.StockException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,5 +23,11 @@ public class ExceptionController {
     public ResponseEntity<ResponseDTO> handleItemNotFoundException(ItemExitsException ex) {
         response.setMessage(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(StockException.class)
+    public ResponseEntity<ResponseDTO> handleStockException(StockException ex) {
+        response.setMessage(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
