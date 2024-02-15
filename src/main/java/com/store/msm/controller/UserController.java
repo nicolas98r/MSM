@@ -20,9 +20,9 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO dto) {
-        String id = dto.getUsername();
-        if (service.findByUsername(id).isPresent()) {
-            throw new ItemExitsException(id);
+        String username = dto.getUsername();
+        if (service.findByUsername(username).isPresent()) {
+            throw new ItemExitsException(username);
         }
         User user = service.createUser(dto);
         response.setMessage("Creado");
@@ -31,21 +31,21 @@ public class UserController {
 
     @PutMapping("/")
     public ResponseEntity<ResponseDTO> updateUser(@RequestBody UserDTO dto) {
-        String id = dto.getUsername();
-        if (service.findByUsername(id).isPresent()) {
+        String username = dto.getUsername();
+        if (service.findByUsername(username).isPresent()) {
             User user = service.createUser(dto);
             response.setMessage("Actualizado");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } else throw new ItemNotFoundException(id);
+        } else throw new ItemNotFoundException(username);
     }
 
     @DeleteMapping("/")
     public ResponseEntity<ResponseDTO> deleteProduct(@RequestBody UserDTO dto) {
-        String id = dto.getUsername();
-        if (service.findByUsername(id).isPresent()) {
-            service.deleteByUsername(id);
+        String username = dto.getUsername();
+        if (service.findByUsername(username).isPresent()) {
+            service.deleteByUsername(username);
             response.setMessage("Borrado");
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } else throw new ItemNotFoundException(id);
+        } else throw new ItemNotFoundException(username);
     }
 }

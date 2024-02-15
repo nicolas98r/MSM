@@ -12,6 +12,7 @@ import java.util.Set;
 public class Sale {
     @Id
     @Column(name = "sale_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "datetime")
     private Date dateTime;

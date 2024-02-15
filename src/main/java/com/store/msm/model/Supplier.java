@@ -11,8 +11,9 @@ import java.util.Set;
 public class Supplier {
     @Id
     @Column(name = "supplier_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "supplier_name")
+    @Column(name = "supplier_name", unique = true)
     private String name;
     @ManyToOne
     @JoinColumn(name = "type", nullable = false)

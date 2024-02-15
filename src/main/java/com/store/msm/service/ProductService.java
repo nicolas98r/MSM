@@ -4,6 +4,7 @@ import com.store.msm.dto.ProductDTO;
 import com.store.msm.mapper.ProductMapper;
 import com.store.msm.model.Product;
 import com.store.msm.repository.IProductRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,18 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public Optional<Product> findById(String id) {
-        return repository.findById(id);
+    public Optional<Product> findByName(String name) {
+        return repository.findByName(name);
     }
 
-    public void deleteById(String id) {
-        repository.deleteById(id);
+    public Product updateProduct(ProductDTO dto) {
+        Product product = repository.findByName(dto.getName()).get();
+        BeanUtils.copyProperties(dto, product, "id", "product_name");
+        return repository.save(product);
+    }
+
+    public void deleteByName(String name) {
+        repository.deleteByName(name);
     }
 
     public void updateStorage(Product product, int value, String operationType) {

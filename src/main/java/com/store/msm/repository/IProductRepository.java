@@ -8,8 +8,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface IProductRepository extends JpaRepository<Product, String> {
+    Optional<Product> findByName(String name);
+
+    void deleteByName(String name);
+
     @Transactional
     @Modifying
     @Query("UPDATE Product p SET p.quantity = :quantity WHERE p.id = :id")

@@ -11,8 +11,9 @@ import java.util.Set;
 public class Product {
     @Id
     @Column(name = "product_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "product_name")
+    @Column(name = "product_name", unique = true)
     private String name;
     private String description;
     private int quantity;

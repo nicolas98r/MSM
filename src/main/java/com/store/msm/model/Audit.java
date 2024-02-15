@@ -11,6 +11,7 @@ import java.util.Date;
 public class Audit {
     @Id
     @Column(name = "audit_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(name = "datetime")
     private Date dateTime;
