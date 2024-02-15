@@ -13,7 +13,7 @@ public class UserType {
     @Column(name = "type_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "type_name")
+    @Column(name = "type_name", unique = true)
     private String name;
     @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
     private Set<User> users;

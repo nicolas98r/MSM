@@ -13,7 +13,7 @@ public class AuditType {
     @Column(name = "type_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "type_name")
+    @Column(name = "type_name", unique = true)
     private String name;
     @OneToMany(mappedBy = "auditType", cascade = CascadeType.ALL)
     private Set<Audit> audit_logs;
