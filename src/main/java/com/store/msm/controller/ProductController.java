@@ -17,7 +17,6 @@ public class ProductController {
     private ProductService service;
 
 
-
     @GetMapping("/")
     public ResponseEntity<String> ping() {
         return new ResponseEntity<>("Pong", HttpStatus.OK);
@@ -43,7 +42,16 @@ public class ProductController {
         } else {
             return new ResponseEntity<>("Producto no encontrado", HttpStatus.NOT_FOUND);
         }
-
     }
 
+    @DeleteMapping("/")
+    public ResponseEntity<String> deleteProduct(@RequestParam(required = true, name = "id") int product_id) {
+        try {
+            service.deleteById(product_id);
+            return new ResponseEntity<>("Borrado", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error:\n" + e, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
 }
