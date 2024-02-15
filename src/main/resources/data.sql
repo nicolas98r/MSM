@@ -1,0 +1,1 @@
+INSERT INTO client_type (type_name) VALUES ('Administrador'), ('Vendedor');
