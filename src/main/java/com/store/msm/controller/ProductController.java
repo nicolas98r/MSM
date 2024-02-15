@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<String> updateProduct(@RequestParam(required = true, name = "id") int product_id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<String> updateProduct(@RequestParam(required = true, name = "id") String product_id, @RequestBody ProductDTO dto) {
         Optional<Product> _product = service.findById(product_id);
         if (_product.isPresent()) {
             dto.setId(product_id);
@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<String> deleteProduct(@RequestParam(required = true, name = "id") int product_id) {
+    public ResponseEntity<String> deleteProduct(@RequestParam(required = true, name = "id") String product_id) {
         try {
             service.deleteById(product_id);
             return new ResponseEntity<>("Borrado", HttpStatus.OK);

@@ -20,11 +20,11 @@ public class ProductService {
         return repository.save(product);
     }
 
-    public Optional<Product> findById(int id) {
+    public Optional<Product> findById(String id) {
         return repository.findById(id);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 }

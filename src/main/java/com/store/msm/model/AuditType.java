@@ -6,15 +6,15 @@ import lombok.Data;
 import java.util.Set;
 
 @Entity
-@Table(name = "client_type")
+@Table(name = "audit_type")
 @Data
-public class UserType {
+public class AuditType {
     @Id
     @Column(name = "type_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "type_name")
     private String name;
-    @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
-    private Set<User> users;
+    @OneToMany(mappedBy = "auditType", cascade = CascadeType.ALL)
+    private Set<Audit> audit_logs;
 }
