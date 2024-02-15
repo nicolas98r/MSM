@@ -2,8 +2,16 @@ package com.store.msm.repository;
 
 import com.store.msm.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IProductRepository extends JpaRepository<Product, String> {
+    @Transactional
+    @Modifying
+    @Query("UPDATE Product p SET p.quantity = :quantity WHERE p.id = :id")
+    void updateProductQuantityById(@Param("id") String id, @Param("quantity") Integer quantity);
 }

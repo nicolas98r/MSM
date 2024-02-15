@@ -28,10 +28,15 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    public void updateStorage(String id, int value, String operationType) {
-        Product product = repository.findById(id).get();
+    public void updateStorage(Product product, int value, String operationType) {
+        int stock = product.getQuantity();
         if (operationType.equals("add")) {
-
+            stock += value;
+        } else if (operationType.equals("delete")) {
+            if (stock >= value) {
+                stock -= value;
+            }
         }
+        repository.updateProductQuantityById(product.getId(), stock);
     }
 }

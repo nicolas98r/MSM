@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/products")
 public class ProductController {
@@ -45,6 +47,17 @@ public class ProductController {
         if (service.findById(id).isPresent()) {
             service.deleteById(id);
             response.setMessage("Borrado");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else throw new ItemNotFoundException(id);
+    }
+
+    @PutMapping("/stock/")
+    public ResponseEntity<ResponseDTO> updateStorage(@RequestParam(name = "type", required = true) String type, @RequestBody ProductDTO dto) {
+        String id = dto.getId();
+        Optional<Product> product = service.findById(id);
+        if (product.isPresent()) {
+            service.updateStorage(product.get(), dto.getQuantity(), type);
+            response.setMessage("Actualizado el storage del producto");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else throw new ItemNotFoundException(id);
     }
