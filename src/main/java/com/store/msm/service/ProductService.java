@@ -27,4 +27,11 @@ public class ProductService {
     public void deleteById(String id) {
         repository.deleteById(id);
     }
+
+    public void updateStorage(String id, int value, String operationType) {
+        Product product = repository.findById(id).get();
+        if (operationType.equals("add")) {
+
+        }
+    }
 }
