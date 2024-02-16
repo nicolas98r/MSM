@@ -125,7 +125,7 @@ Borra un usuario si existe.
 #### Generar Venta
 
 ```http
-  DELETE /users/
+  POST /sales/
 ```
 
 ```json
