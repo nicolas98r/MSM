@@ -11,6 +11,6 @@ public class SaleDTO {
     private Date dateTime;
     private String seller;
     private List<ProductDTO> products;
-    private int totalProducts;
-    private float totalSale;
+    private int quantity;
+    private float total;
 }
