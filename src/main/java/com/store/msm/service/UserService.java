@@ -31,8 +31,8 @@ public class UserService {
         return userRepository.findById(username).orElseThrow(() -> new ItemNotFoundException(username));
     }
 
-    public void deleteByUsername(String username) {
-        this.findByUsername(username);
-        userRepository.deleteById(username);
+    public void deleteUser(UserDTO dto) {
+        User user = this.findByUsername(dto.getUsername());
+        userRepository.delete(user);
     }
 }

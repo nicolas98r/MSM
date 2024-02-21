@@ -33,8 +33,8 @@ public class ProductService {
         repository.save(product);
     }
 
-    public void deleteByName(String name) {
-        Product product = this.findByName(name);
+    public void deleteProduct(ProductDTO dto) {
+        Product product = this.findByName(dto.getName());
         repository.delete(product);
     }
 

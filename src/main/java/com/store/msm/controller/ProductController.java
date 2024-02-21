@@ -33,8 +33,7 @@ public class ProductController {
 
     @DeleteMapping("/")
     public ResponseEntity<ResponseDTO> deleteProduct(@RequestBody ProductDTO dto) {
-        String name = dto.getName();
-        service.deleteByName(name);
+        service.deleteProduct(dto);
         response.setMessage("Borrado");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

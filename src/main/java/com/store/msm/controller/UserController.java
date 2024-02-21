@@ -31,8 +31,7 @@ public class UserController {
 
     @DeleteMapping("/")
     public ResponseEntity<ResponseDTO> deleteProduct(@RequestBody UserDTO dto) {
-        String username = dto.getUsername();
-        service.deleteByUsername(username);
+        service.deleteUser(dto);
         response.setMessage("Borrado");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
