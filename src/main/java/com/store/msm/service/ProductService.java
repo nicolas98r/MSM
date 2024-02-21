@@ -38,7 +38,9 @@ public class ProductService {
         repository.delete(product);
     }
 
-    public void updateStorage(Product product, int value, String operationType) {
+    public void updateStorage(ProductDTO dto, String operationType) {
+        Product product = this.findByName(dto.getName());
+        int value = dto.getQuantity();
         int stock = product.getQuantity();
         if (operationType.equals("add")) {
             stock += value;
@@ -47,6 +49,6 @@ public class ProductService {
                 stock -= value;
             } else throw new StockException();
         }
-        repository.updateProductQuantityById(product.getId(), stock);
+        repository.updateProductStorageById(product.getId(), stock);
     }
 }

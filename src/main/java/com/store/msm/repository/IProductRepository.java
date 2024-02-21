@@ -17,5 +17,5 @@ public interface IProductRepository extends JpaRepository<Product, String> {
     @Transactional
     @Modifying
     @Query("UPDATE Product p SET p.quantity = :quantity WHERE p.id = :id")
-    void updateProductQuantityById(@Param("id") String id, @Param("quantity") Integer quantity);
+    void updateProductStorageById(@Param("id") String id, @Param("quantity") Integer quantity);
 }

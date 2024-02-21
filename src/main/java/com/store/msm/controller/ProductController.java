@@ -2,7 +2,6 @@ package com.store.msm.controller;
 
 import com.store.msm.dto.ProductDTO;
 import com.store.msm.dto.ResponseDTO;
-import com.store.msm.model.Product;
 import com.store.msm.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,9 +39,7 @@ public class ProductController {
 
     @PutMapping("/stock/")
     public ResponseEntity<ResponseDTO> updateStorage(@RequestParam(name = "type", required = true) String type, @RequestBody ProductDTO dto) {
-        String name = dto.getName();
-        Product product = service.findByName(name);
-        service.updateStorage(product, dto.getQuantity(), type);
+        service.updateStorage(dto, type);
         response.setMessage("Actualizado el storage del producto");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

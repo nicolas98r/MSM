@@ -35,10 +35,9 @@ public class SaleService {
             // Obtiene toda la información del producto para calcular lo que falta
             product = productService.findByName(currentProduct.getName());
             //Actualiza el storage del producto
-            productService.updateStorage(product, currentProduct.getQuantity(), "delete");
+            productService.updateStorage(currentProduct, "delete");
             quantity += currentProduct.getQuantity();
             cost += product.getPrice() * quantity;
-            System.out.println(cost);
             totalProducts += quantity;
             totalSale += cost;
             sale.getProducts().add(product);
