@@ -2,7 +2,6 @@ package com.store.msm.controller;
 
 import com.store.msm.dto.ResponseDTO;
 import com.store.msm.dto.UserDTO;
-import com.store.msm.model.User;
 import com.store.msm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +17,14 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO dto) {
-        String username = dto.getUsername();
-        User user = service.createUser(dto);
+        service.createUser(dto);
         response.setMessage("Creado");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/")
     public ResponseEntity<ResponseDTO> updateUser(@RequestBody UserDTO dto) {
-        String username = dto.getUsername();
-        User user = service.createUser(dto);
+        service.createUser(dto);
         response.setMessage("Actualizado");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

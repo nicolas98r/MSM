@@ -18,16 +18,14 @@ public class ProductController {
 
     @PostMapping("/")
     public ResponseEntity<ResponseDTO> createProduct(@RequestBody ProductDTO dto) {
-        String name = dto.getName();
-        Product product = service.createProduct(dto);
+        service.createProduct(dto);
         response.setMessage("Creado");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/")
     public ResponseEntity<ResponseDTO> updateProduct(@RequestBody ProductDTO dto) {
-        String name = dto.getName();
-        Product product = service.updateProduct(dto);
+        service.updateProduct(dto);
         response.setMessage("Actualizado");
         return new ResponseEntity<>(response, HttpStatus.OK);
 

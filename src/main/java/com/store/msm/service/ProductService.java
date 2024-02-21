@@ -17,27 +17,25 @@ public class ProductService {
     @Autowired
     private IProductRepository repository;
 
-    public Product createProduct(ProductDTO dto) {
-        if (repository.findByName(dto.getName()).isPresent()) {
-            throw new ItemExitsException(dto.getName());
-        }
+    public void createProduct(ProductDTO dto) {
+        if (repository.findByName(dto.getName()).isPresent()) throw new ItemExitsException(dto.getName());
         Product product = ProductMapper.convertToEntity(dto);
-        return repository.save(product);
+        repository.save(product);
     }
 
     public Product findByName(String name) {
         return repository.findByName(name).orElseThrow(() -> new ItemNotFoundException(name));
     }
 
-    public Product updateProduct(ProductDTO dto) {
+    public void updateProduct(ProductDTO dto) {
         Product product = this.findByName(dto.getName());
         BeanUtils.copyProperties(dto, product, "id", "product_name");
-        return repository.save(product);
+        repository.save(product);
     }
 
     public void deleteByName(String name) {
         Product product = this.findByName(name);
-        repository.deleteByName(name);
+        repository.delete(product);
     }
 
     public void updateStorage(Product product, int value, String operationType) {

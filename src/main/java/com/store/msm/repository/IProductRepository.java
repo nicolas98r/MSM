@@ -15,9 +15,6 @@ public interface IProductRepository extends JpaRepository<Product, String> {
     Optional<Product> findByName(String name);
 
     @Transactional
-    void deleteByName(String name);
-
-    @Transactional
     @Modifying
     @Query("UPDATE Product p SET p.quantity = :quantity WHERE p.id = :id")
     void updateProductQuantityById(@Param("id") String id, @Param("quantity") Integer quantity);

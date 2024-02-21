@@ -18,13 +18,13 @@ public class UserService {
     @Autowired
     private IUserTypeRepository typeRepository;
 
-    public User createUser(UserDTO dto) {
+    public void createUser(UserDTO dto) {
         if (userRepository.findById(dto.getUsername()).isPresent()) {
             throw new ItemExitsException(dto.getUsername());
         }
         String type = dto.getType();
         User user = UserMapper.convertToEntity(dto, typeRepository.findByName(type).orElseThrow(() -> new ItemNotFoundException(type)));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public User findByUsername(String username) {
@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public void deleteByUsername(String username) {
-        User user = this.findByUsername(username);
+        this.findByUsername(username);
         userRepository.deleteById(username);
     }
 }
