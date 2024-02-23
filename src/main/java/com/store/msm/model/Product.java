@@ -21,11 +21,11 @@ public class Product {
     private int quantity;
     private String model;
     private float price;
-    @ManyToMany(mappedBy = "products")
-    private Set<Sale> productSales = new HashSet<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductSale> productSales = new HashSet<>();
     @ManyToMany
     @JoinTable(
-            name = "product_suppliers",
+            name = "product_supplier",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "supplier_id"))
     private Set<Supplier> suppliers;

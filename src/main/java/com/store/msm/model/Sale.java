@@ -20,12 +20,8 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
     private User seller;
-    @ManyToMany
-    @JoinTable(
-            name = "product_sales",
-            joinColumns = @JoinColumn(name = "sale_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductSale> productSales = new HashSet<>();
     @Column(name = "total_products")
     private int quantity;
     @Column(name = "total_sale")

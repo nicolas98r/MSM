@@ -4,8 +4,9 @@ import com.store.msm.dto.ProductDTO;
 import com.store.msm.dto.SaleDTO;
 import com.store.msm.mapper.SaleMapper;
 import com.store.msm.model.Product;
+import com.store.msm.model.ProductSale;
 import com.store.msm.model.Sale;
-import com.store.msm.model.User;
+import com.store.msm.repository.IProductSaleRepository;
 import com.store.msm.repository.ISaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,10 @@ import java.util.List;
 @Service
 public class SaleService {
     @Autowired
-    private ISaleRepository repository;
+    private ISaleRepository saleRepository;
+
+    @Autowired
+    private IProductSaleRepository productSaleRepository;
 
     @Autowired
     private ProductService productService;
@@ -25,35 +29,43 @@ public class SaleService {
 
     public SaleDTO sellProducts(SaleDTO dto) {
         Date currrentDate = new Date();
-        Product product = null;
         Sale sale = new Sale();
-        User seller;
-        int quantity = 0, totalProducts = 0;
-        float cost = 0, totalSale = 0;
+        int totalProducts = 0;
+        float totalSale = 0;
+
+        //Genera nueva venta
+        sale.setSeller(userService.findByUsername(dto.getSeller()));
+        sale.setDateTime(currrentDate);
+        saleRepository.save(sale);
+
         List<ProductDTO> products = dto.getProducts();
         for (ProductDTO currentProduct : products) {
             // Obtiene toda la información del producto para calcular lo que falta
-            product = productService.findByName(currentProduct.getName());
+            Product product = productService.findByName(currentProduct.getName());
             //Actualiza el storage del producto
             productService.updateStorage(currentProduct, "delete");
-            quantity += currentProduct.getQuantity();
-            cost += product.getPrice() * quantity;
+            // Calcula cantidades y costo por producto
+            int quantity = currentProduct.getQuantity();
+            float cost = product.getPrice() * quantity;
+            //Aumenta total productos y ventas
             totalProducts += quantity;
             totalSale += cost;
-            sale.getProducts().add(product);
-            quantity = 0;
-            cost = 0;
+            // Guarda registro de la venta
+            ProductSale productSale = new ProductSale();
+            productSale.setSale(sale);
+            productSale.setProduct(product);
+            productSale.setQuantity(quantity);
+            productSale.setPrice(cost);
+
+            productSaleRepository.save(productSale);
+
         }
 
-        //Registrar venta en tabla
-        seller = userService.findByUsername(dto.getSeller());
-        sale.setSeller(seller);
-        sale.setDateTime(currrentDate);
+        sale.setQuantity(totalProducts);
+        sale.setTotal(totalSale);
+        saleRepository.save(sale);
 
-        repository.save(sale);
-
-
-        return SaleMapper.convertToSale(seller.getUsername(), totalProducts, totalSale);
+        return SaleMapper.convertToSale(sale.getSeller().getUsername(), totalProducts, totalSale);
 
     }
 }
