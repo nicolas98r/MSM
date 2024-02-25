@@ -15,7 +15,9 @@ public class UserMapper {
     private static final ModelMapper modelMapper = new ModelMapper();
 
     public static UserDTO convertToDTO(User user) {
-        return modelMapper.map(user, UserDTO.class);
+        UserDTO dto = modelMapper.map(user, UserDTO.class);
+        dto.setType(user.getUserType().getName());
+        return dto;
     }
 
     public static User convertToEntity(UserDTO userDTO, UserType type) {

@@ -6,10 +6,9 @@ import com.store.msm.service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/sales")
@@ -17,6 +16,16 @@ public class SaleController {
     private final ResponseDTO response = new ResponseDTO();
     @Autowired
     private SaleService service;
+
+    @GetMapping("/")
+    public ResponseEntity<SaleDTO> getSaleByName(@RequestBody SaleDTO dto) {
+        return new ResponseEntity<>(service.getSaleByName(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/")
+    public ResponseEntity<List<SaleDTO>> getAllSales() {
+        return new ResponseEntity<>(service.getAllSales(), HttpStatus.OK);
+    }
 
     @PostMapping("/")
     public ResponseEntity<SaleDTO> sellProducts(@RequestBody SaleDTO dto) {

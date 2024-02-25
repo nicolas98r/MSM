@@ -8,12 +8,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/products")
 public class ProductController {
     private final ResponseDTO response = new ResponseDTO();
     @Autowired
     private ProductService service;
+
+
+    @GetMapping("/")
+    public ResponseEntity<ProductDTO> getProductByName(@RequestBody ProductDTO dto) {
+        return new ResponseEntity<>(service.getProductByName(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+    }
 
     @PostMapping("/")
     public ResponseEntity<ResponseDTO> createProduct(@RequestBody ProductDTO dto) {

@@ -8,12 +8,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
     private final ResponseDTO response = new ResponseDTO();
     @Autowired
     private UserService service;
+
+    @GetMapping("/")
+    public ResponseEntity<UserDTO> getProductByName(@RequestBody UserDTO dto) {
+        return new ResponseEntity<>(service.getUserByName(dto), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/")
+    public ResponseEntity<List<UserDTO>> getAllProducts() {
+        return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
+    }
 
     @PostMapping("/")
     public ResponseEntity<ResponseDTO> createUser(@RequestBody UserDTO dto) {

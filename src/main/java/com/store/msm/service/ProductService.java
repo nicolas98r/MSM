@@ -11,20 +11,32 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductService {
 
     @Autowired
     private IProductRepository repository;
 
+
+    public ProductDTO getProductByName(ProductDTO requestDto) {
+        Product product = this.findByName(requestDto.getName());
+        return ProductMapper.convertToDTO(product);
+    }
+
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = repository.findAll();
+        return products.stream()
+                .map(ProductMapper::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public void createProduct(ProductDTO dto) {
         if (repository.findByName(dto.getName()).isPresent()) throw new ItemExitsException(dto.getName());
         Product product = ProductMapper.convertToEntity(dto);
         repository.save(product);
-    }
-
-    public Product findByName(String name) {
-        return repository.findByName(name).orElseThrow(() -> new ItemNotFoundException(name));
     }
 
     public void updateProduct(ProductDTO dto) {
@@ -50,5 +62,9 @@ public class ProductService {
             } else throw new StockException();
         }
         repository.updateProductStorageById(product.getId(), stock);
+    }
+
+    public Product findByName(String name) {
+        return repository.findByName(name).orElseThrow(() -> new ItemNotFoundException(name));
     }
 }

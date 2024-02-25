@@ -47,15 +47,18 @@ public class SaleService {
             // Calcula cantidades y costo por producto
             int quantity = currentProduct.getQuantity();
             float cost = product.getPrice() * quantity;
+            currentProduct.setPrice(cost);
             //Aumenta total productos y ventas
             totalProducts += quantity;
             totalSale += cost;
             // Guarda registro de la venta
-            ProductSale productSale = new ProductSale();
-            productSale.setSale(sale);
-            productSale.setProduct(product);
-            productSale.setQuantity(quantity);
-            productSale.setPrice(cost);
+            ProductSale productSale = ProductSale
+                    .builder()
+                    .sale(sale)
+                    .product(product)
+                    .quantity(quantity)
+                    .price(cost)
+                    .build();
 
             productSaleRepository.save(productSale);
 
@@ -65,7 +68,7 @@ public class SaleService {
         sale.setTotal(totalSale);
         saleRepository.save(sale);
 
-        return SaleMapper.convertToSale(sale.getSeller().getUsername(), totalProducts, totalSale);
+        return SaleMapper.convertToSale(currrentDate, dto.getSeller(), products, totalProducts, totalSale);
 
     }
 }
