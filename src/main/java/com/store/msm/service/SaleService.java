@@ -11,8 +11,10 @@ import com.store.msm.repository.ISaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SaleService {
@@ -28,15 +30,14 @@ public class SaleService {
     private UserService userService;
 
     public SaleDTO sellProducts(SaleDTO dto) {
-        Date currrentDate = new Date();
-        Sale sale = new Sale();
+        Sale sale = Sale.builder()
+                .id(UUID.randomUUID().toString())
+                .seller(userService.findByUsername(dto.getSeller()))
+                .dateTime(new Date())
+                .build();
         int totalProducts = 0;
         float totalSale = 0;
-
-        //Genera nueva venta
-        sale.setSeller(userService.findByUsername(dto.getSeller()));
-        sale.setDateTime(currrentDate);
-        saleRepository.save(sale);
+        List<ProductSale> productSales = new ArrayList<>();
 
         List<ProductDTO> products = dto.getProducts();
         for (ProductDTO currentProduct : products) {
@@ -59,16 +60,15 @@ public class SaleService {
                     .quantity(quantity)
                     .price(cost)
                     .build();
-
-            productSaleRepository.save(productSale);
-
+            productSales.add(productSale);
         }
 
+        //Genera nueva venta y guardado en repositorio
         sale.setQuantity(totalProducts);
         sale.setTotal(totalSale);
         saleRepository.save(sale);
+        productSaleRepository.saveAll(productSales);
 
-        return SaleMapper.convertToSale(currrentDate, dto.getSeller(), products, totalProducts, totalSale);
-
+        return SaleMapper.convertToDTO(sale, products);
     }
 }
