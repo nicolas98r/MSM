@@ -37,6 +37,14 @@ public class SaleService {
                 .toList();
     }
 
+    public List<SaleDTO> getAllProducts() {
+        return saleRepository.findAll()
+                .stream()
+                .map(sale -> SaleMapper.convertToDTO(sale, this.getProductsFromSale(sale.getId())))
+                .toList();
+
+    }
+
     private List<ProductSaleDTO> getProductsFromSale(String saleId) {
         return ProductMapper.covertToProductSaleDTOS(productSaleRepository.findProductsFromSale(saleId));
     }

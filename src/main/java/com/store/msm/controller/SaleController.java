@@ -22,6 +22,11 @@ public class SaleController {
         return new ResponseEntity<>(service.getSalesFromSeller(dto), HttpStatus.OK);
     }
 
+    @GetMapping("/all/")
+    public ResponseEntity<List<SaleDTO>> getAllSales() {
+        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+    }
+
     @PostMapping("/")
     public ResponseEntity<SaleDTO> sellProducts(@RequestBody SaleDTO dto) {
         SaleDTO sale = service.sellProducts(dto);
