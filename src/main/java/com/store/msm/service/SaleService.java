@@ -31,7 +31,9 @@ public class SaleService {
     private UserService userService;
 
     public List<SaleDTO> getSalesFromSeller(SaleDTO dto) {
-        return saleRepository.findBySellerUsername(dto.getSeller())
+        String seller = dto.getSeller();
+        userService.findByUsername(seller);
+        return saleRepository.findBySellerUsername(seller)
                 .stream()
                 .map(sale -> SaleMapper.convertToDTO(sale, this.getProductsFromSale(sale.getId())))
                 .toList();
