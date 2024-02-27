@@ -12,7 +12,7 @@ public class SaleDTO {
     private String id;
     private Date dateTime;
     private String seller;
-    private List<ProductDTO> products;
+    private List<ProductSaleDTO> products;
     private int quantity;
     private float total;
 }

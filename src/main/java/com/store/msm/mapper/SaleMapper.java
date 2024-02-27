@@ -1,6 +1,6 @@
 package com.store.msm.mapper;
 
-import com.store.msm.dto.ProductDTO;
+import com.store.msm.dto.ProductSaleDTO;
 import com.store.msm.dto.SaleDTO;
 import com.store.msm.model.Sale;
 import lombok.Data;
@@ -16,11 +16,10 @@ public class SaleMapper {
     @Autowired
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public static SaleDTO convertToDTO(Sale sale, List<ProductDTO> products) {
+    public static SaleDTO convertToDTO(Sale sale, List<ProductSaleDTO> products) {
         SaleDTO dto = modelMapper.map(sale, SaleDTO.class);
         dto.setSeller(sale.getSeller().getUsername());
         dto.setProducts(products);
         return dto;
     }
-
 }
