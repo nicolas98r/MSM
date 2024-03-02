@@ -21,8 +21,8 @@ public class ProductService {
     private IProductRepository repository;
 
 
-    public ProductDTO getProductByName(ProductDTO requestDto) {
-        Product product = this.findByName(requestDto.getName());
+    public ProductDTO getProductById(String id) {
+        Product product = this.findById(id);
         return ProductMapper.convertToDTO(product);
     }
 
@@ -62,6 +62,10 @@ public class ProductService {
             } else throw new StockException();
         }
         repository.updateProductStorageById(product.getId(), stock);
+    }
+
+    public Product findById(String id) {
+        return repository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
     public Product findByName(String name) {

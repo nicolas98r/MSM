@@ -17,12 +17,12 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping("/")
-    public ResponseEntity<UserDTO> getProductByName(@RequestBody UserDTO dto) {
-        return new ResponseEntity<>(service.getUserByName(dto), HttpStatus.OK);
+    @GetMapping("/{user}")
+    public ResponseEntity<UserDTO> getProductById(@PathVariable String user) {
+        return new ResponseEntity<>(service.getUserByName(user), HttpStatus.OK);
     }
 
-    @GetMapping("/all/")
+    @GetMapping("/")
     public ResponseEntity<List<UserDTO>> getAllProducts() {
         return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
     }

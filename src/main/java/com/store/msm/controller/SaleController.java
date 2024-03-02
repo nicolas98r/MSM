@@ -17,14 +17,14 @@ public class SaleController {
     @Autowired
     private SaleService service;
 
-    @GetMapping("/")
-    public ResponseEntity<List<SaleDTO>> getSalesFromSeller(@RequestBody SaleDTO dto) {
-        return new ResponseEntity<>(service.getSalesFromSeller(dto), HttpStatus.OK);
+    @GetMapping("/{user}")
+    public ResponseEntity<List<SaleDTO>> getSalesFromSeller(@PathVariable String user) {
+        return new ResponseEntity<>(service.getSalesFromSeller(user), HttpStatus.OK);
     }
 
-    @GetMapping("/all/")
+    @GetMapping("/")
     public ResponseEntity<List<SaleDTO>> getAllSales() {
-        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getAllSales(), HttpStatus.OK);
     }
 
     @PostMapping("/")

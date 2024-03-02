@@ -30,8 +30,7 @@ public class SaleService {
     @Autowired
     private UserService userService;
 
-    public List<SaleDTO> getSalesFromSeller(SaleDTO dto) {
-        String seller = dto.getSeller();
+    public List<SaleDTO> getSalesFromSeller(String seller) {
         userService.findByUsername(seller);
         return saleRepository.findBySellerUsername(seller)
                 .stream()
@@ -39,7 +38,7 @@ public class SaleService {
                 .toList();
     }
 
-    public List<SaleDTO> getAllProducts() {
+    public List<SaleDTO> getAllSales() {
         return saleRepository.findAll()
                 .stream()
                 .map(sale -> SaleMapper.convertToDTO(sale, this.getProductsFromSale(sale.getId())))

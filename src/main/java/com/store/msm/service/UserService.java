@@ -21,8 +21,8 @@ public class UserService {
     @Autowired
     private IUserTypeRepository typeRepository;
 
-    public UserDTO getUserByName(UserDTO requestDto) {
-        User user = this.findByUsername(requestDto.getUsername());
+    public UserDTO getUserByName(String username) {
+        User user = this.findByUsername(username);
         return UserMapper.convertToDTO(user);
     }
 

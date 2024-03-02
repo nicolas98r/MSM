@@ -18,12 +18,12 @@ public class ProductController {
     private ProductService service;
 
 
-    @GetMapping("/")
-    public ResponseEntity<ProductDTO> getProductByName(@RequestBody ProductDTO dto) {
-        return new ResponseEntity<>(service.getProductByName(dto), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable String id) {
+        return new ResponseEntity<>(service.getProductById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/all/")
+    @GetMapping("/")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
     }
